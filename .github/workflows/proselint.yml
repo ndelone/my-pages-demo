@@ -1,0 +1,37 @@
+name: Proselint Linting
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  prose-lint:
+    name: Check Markdown prose with Proselint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install Proselint
+        run: |
+          pip install proselint
+
+      - name: Run Proselint on Markdown files
+        run: |
+          # Find all .md files and lint them
+          if ls **/*.md >/dev/null 2>&1; then
+            for file in $(find . -name "*.md"); do
+              echo "📝 Checking $file"
+              proselint "$file" || true
+            done
+          else
+            echo "No Markdown files found."
+          fi
+
