@@ -29,7 +29,7 @@ jobs:
           if ls **/*.md >/dev/null 2>&1; then
             for file in $(find . -name "*.md"); do
               echo "📝 Checking $file"
-              proselint "$file" || true
+              proselint "$file" 
             done
           else
             echo "No Markdown files found."
